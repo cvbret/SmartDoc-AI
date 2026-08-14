@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from openai import OpenAI
-
+from app.utils.logger import logger
 
 load_dotenv()
 
@@ -13,15 +13,15 @@ client = OpenAI(
 )
 
 
-def chat_with_llm(message: str) -> str:
-    response = client.chat.completions.create(
-        model="deepseek-chat",
-        messages=[
-            {
-                "role": "user",
-                "content": message
-            }
-        ]
-    )
+def chat_with_llm(messages: list[dict[str, str]]) -> str:
+    try:
+        response = client.chat.completions.create(
+            model="deepseek-chat",
+            messages=messages
+        )
 
-    return response.choices[0].message.content
+        return response.choices[0].message.content
+
+    except Exception:
+        logger.exception("LLM调用失败")
+        raise

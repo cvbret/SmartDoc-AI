@@ -1,21 +1,50 @@
 from fastapi import APIRouter
 
-from app.services.llm_service import chat_with_llm
 from app.schemas.chat import ChatRequest
 from app.schemas.response import ResponseModel
+from app.services.conversation_service import (
+    add_message,
+    get_history,
+)
+from app.services.llm_service import chat_with_llm
 
-router = APIRouter()
+
+router = APIRouter()#创建一个APIRouter对象，名字叫router
 
 
 @router.post("/chat")
 def chat(request: ChatRequest):
 
-    answer = chat_with_llm(
-        request.message
+    try:
+        add_message(
+            request.session_id,
+            "user",
+            request.message
         )
 
-    return ResponseModel(
-    data={
-        "answer": answer
-    }
-    )
+        history = get_history(
+            request.session_id
+        )
+
+        answer = chat_with_llm(
+            history
+        )
+
+        add_message(
+            request.session_id,
+            "assistant",
+            answer
+        )
+
+        return ResponseModel(
+            data={
+                "answer": answer
+            }
+        )
+
+    except Exception:
+        return ResponseModel(
+            code=500,
+            message="AI服务暂时不可用",
+            data=None
+        )
