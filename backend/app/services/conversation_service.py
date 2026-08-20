@@ -39,7 +39,10 @@ def add_message(
         "role": role,
         "content": content
     }
-
+    #将消息添加到Redis列表的末尾
+    #rpush命令用于将元素添加到列表的末尾
+    #json.dumps()将Python对象转换为JSON字符串的函数
+    #ensure_ascii=False表示不将非ASCII字符转换为转义序列
     redis_client.rpush(
         key,
         json.dumps(

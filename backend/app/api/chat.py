@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from app.services.rag_service import rag_chat
 from app.schemas.chat import ChatRequest
 from app.schemas.response import ResponseModel
 from app.services.conversation_service import (
@@ -26,7 +27,8 @@ def chat(request: ChatRequest):
             request.session_id
         )
 
-        answer = chat_with_llm(
+        answer = rag_chat(
+            request.message,
             history
         )
 
