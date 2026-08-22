@@ -1,7 +1,19 @@
+from sqlalchemy.orm import Session
+
+from app.services.document_crud import (
+    create_document,
+    update_document_status
+)
+
+from app.services.chunk_service import split_text
+from app.services.embedding_service import embed_chunks
+from app.services.vector_service import save_chunks
+
 from io import BytesIO
 
 from fastapi import UploadFile
 from pypdf import PdfReader
+
 
 
 SUPPORTED_CONTENT_TYPES = {
@@ -28,6 +40,74 @@ async def parse_document(file: UploadFile) -> str:
         "无法识别文件类型"
     )
 
+async def process_document(
+    db: Session,
+    file: UploadFile
+):
+
+    document = None
+
+    try:
+
+        # 1. 创建数据库记录
+        document = create_document(
+            db,
+            file.filename,
+            file.content_type,
+            None
+        )
+
+
+        # 2. 解析文件
+        text = await parse_document(file)
+
+
+        # 3. chunk切分
+        chunks = split_text(
+            text,
+            file.filename
+        )
+
+
+        # 4. embedding
+        embedded_chunks = embed_chunks(
+            chunks
+        )
+
+
+        # 5. 保存Chroma
+        save_chunks(
+            embedded_chunks
+        )
+
+
+        # 6. 更新状态
+        update_document_status(
+            db,
+            document.id,
+            "completed"
+        )
+
+
+        return {
+            "filename": file.filename,
+            "text_length": len(text),
+            "chunk_count": len(chunks),
+            "document_id": document.id
+        }
+
+
+    except Exception:
+
+        if document:
+
+            update_document_status(
+                db,
+                document.id,
+                "failed"
+            )
+
+        raise
 
 def _parse_txt(content: bytes) -> str:
     return content.decode(
