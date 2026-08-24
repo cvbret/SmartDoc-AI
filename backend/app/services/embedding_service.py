@@ -1,11 +1,10 @@
 from sentence_transformers import SentenceTransformer
 
-
-MODEL_NAME = "BAAI/bge-small-zh-v1.5"
+from app.core.config import settings
 
 
 model = SentenceTransformer(
-    MODEL_NAME
+    settings.embedding_model
 )
 
 

@@ -16,37 +16,29 @@ router = APIRouter()#创建一个APIRouter对象，名字叫router
 @router.post("/chat")
 def chat(request: ChatRequest):
 
-    try:
-        add_message(
-            request.session_id,
-            "user",
-            request.message
-        )
+    add_message(
+        request.session_id,
+        "user",
+        request.message
+    )
 
-        history = get_history(
-            request.session_id
-        )
+    history = get_history(
+        request.session_id
+    )
 
-        answer = rag_chat(
-            request.message,
-            history
-        )
+    answer = rag_chat(
+        request.message,
+        history
+    )
 
-        add_message(
-            request.session_id,
-            "assistant",
-            answer
-        )
+    add_message(
+        request.session_id,
+        "assistant",
+        answer
+    )
 
-        return ResponseModel(
-            data={
-                "answer": answer
-            }
-        )
-
-    except Exception:
-        return ResponseModel(
-            code=500,
-            message="AI服务暂时不可用",
-            data=None
-        )
+    return ResponseModel(
+        data={
+            "answer": answer
+        }
+    )

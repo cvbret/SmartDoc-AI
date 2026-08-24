@@ -1,16 +1,12 @@
-from app.services.vector_service import search_chunks
+from app.services.vector_service import collection
 
 
-query_vector = [
-    0.1,
-    0.2,
-    0.3
-]
-
-
-result = search_chunks(
-    query_vector
+result = collection.get(
+   where={
+        "document_id":8
+    }
 )
 
 
-print(result)
+for metadata in result["metadatas"]:
+    print(metadata)

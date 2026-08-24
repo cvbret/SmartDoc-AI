@@ -1,9 +1,7 @@
 import json#导入json模块，用于序列化和反序列化Python对象
 
 from app.core.redis import redis_client
-
-
-SESSION_EXPIRE_SECONDS = 3600
+from app.core.config import settings
 
 
 def _get_session_key(session_id: str) -> str:
@@ -52,8 +50,8 @@ def add_message(
     )
     #设置会话过期时间为1小时
     #expire命令用于设置键的过期时间
-    #SESSION_EXPIRE_SECONDS表示过期时间为SESSION_EXPIRE_SECONDS小时
+    #settings.session_expire_seconds表示会话过期时间
     redis_client.expire(
         key,
-        SESSION_EXPIRE_SECONDS
+        settings.session_expire_seconds
     )

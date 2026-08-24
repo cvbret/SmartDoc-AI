@@ -2,6 +2,7 @@ from pathlib import Path
 import chromadb
 import uuid
 
+from app.core.config import settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 CHROMA_PATH = BASE_DIR / "chroma"
@@ -13,7 +14,7 @@ client = chromadb.PersistentClient(
 )
 
 collection = client.get_or_create_collection(
-    name="smartdoc"
+    name=settings.chroma_collection_name
 )
 
 
@@ -75,3 +76,26 @@ def search_chunks(
     print(result)
 
     return result
+
+def get_chunks_by_document_id(
+    document_id:int
+):
+
+    result = collection.get(
+        where={
+            "document_id": document_id
+        }
+    )
+
+
+    return result
+
+def delete_chunks_by_document_id(
+    document_id:int
+):
+
+    collection.delete(
+        where={
+            "document_id":document_id
+        }
+    )

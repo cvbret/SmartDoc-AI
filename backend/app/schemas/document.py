@@ -20,3 +20,16 @@ class DocumentResponse(BaseModel):
     
     class Config:
         from_attributes = True #告诉Pydantic：可以读取对象属性，而不是只读取字典
+
+
+class DocumentListResponse(BaseModel):
+
+    items: list[DocumentResponse]
+
+    page: int
+
+    page_size: int
+
+    total: int
+
+    total_pages: int

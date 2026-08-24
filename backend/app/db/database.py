@@ -2,20 +2,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
 
-DATABASE_URL = (
-    "postgresql://"
-    "smartdoc_user:"
-    "smartdoc_password@"
-    "localhost:5433/"
-    "smartdoc_db"
-)
+from app.core.config import settings
 
-
+#创建数据库连接入口
 engine = create_engine(
-    DATABASE_URL
+    settings.database_url
 )
 
-
+#创建数据库操作会话
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,

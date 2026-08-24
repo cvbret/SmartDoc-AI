@@ -1,9 +1,15 @@
 def split_text(
     text: str,
     filename: str,
+    document_id: int,
     chunk_size: int = 500,
     overlap: int = 100
 ) -> list[dict]:
+
+    print(
+        "split_text收到document_id:",
+        document_id
+    )
 
     if not text:
         return []
@@ -15,6 +21,7 @@ def split_text(
             {
                 "content": text,
                 "metadata": {
+                    "document_id": document_id,
                     "filename": filename,
                     "chunk_id": 0
                 }
@@ -39,6 +46,7 @@ def split_text(
             {
                 "content": chunk,
                 "metadata": {
+                    "document_id": document_id,
                     "filename": filename,
                     "chunk_id": chunk_id
                 }

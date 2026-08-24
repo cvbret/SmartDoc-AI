@@ -1,15 +1,10 @@
-import os
-
-from dotenv import load_dotenv
 from openai import OpenAI
 from app.utils.logger import logger
-
-load_dotenv()
-
+from app.core.config import settings
 
 client = OpenAI(
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    base_url="https://api.deepseek.com"
+    api_key=settings.deepseek_api_key,
+    base_url=settings.deepseek_base_url
 )
 
 

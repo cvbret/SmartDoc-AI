@@ -1,16 +1,12 @@
-import os
-
-from dotenv import load_dotenv
 from redis import Redis
 
-
-load_dotenv()
+from app.core.config import settings
 
 
 redis_client = Redis(
-    host=os.getenv("REDIS_HOST", "localhost"),
-    port=int(os.getenv("REDIS_PORT", "6379")),
-    db=int(os.getenv("REDIS_DB", "0")),
+    host=settings.redis_host,
+    port=settings.redis_port,
+    db=settings.redis_db,
     decode_responses=True,#一个字节转换函数，将Redis返回的字符串解码为Python字符串
 )
 
