@@ -1,0 +1,4 @@
+Alembic migration scripts for SmartDoc-AI.
+
+No baseline revision is included yet. The existing database must not be
+modified until a baseline migration is created and explicitly stamped.

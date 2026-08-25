@@ -12,7 +12,6 @@ class Document(Base):
     id = Column(
         Integer,
         primary_key=True,
-        index=True
     )
 
     #filename 是文档的文件名，它是一个字符串，不能为 NULL。
