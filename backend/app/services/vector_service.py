@@ -1,8 +1,12 @@
 from pathlib import Path
+import logging
 import chromadb
 import uuid
 
 from app.core.config import settings
+
+logger = logging.getLogger(__name__)
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 CHROMA_PATH = BASE_DIR / "chroma"
@@ -56,13 +60,17 @@ def save_chunks(
         metadatas=metadatas
     )
 
+    logger.debug("Saved chunk_count=%s to Chroma", len(chunks))
+
 def search_chunks(
     query_embedding: list[float],
     top_k: int = 3 #找几个最相似的文本块
 ):
-    print(
-        "当前collection数量:",
-        collection.count() #当前collection中的文档数量
+    logger.debug(
+        "Searching Chroma collection=%s collection_count=%s top_k=%s",
+        settings.chroma_collection_name,
+        collection.count(),
+        top_k,
     )
 
     #拿用户问题的 embedding 向量，和 Chroma 中保存的所有 chunk 向量进行相似度计算，然后按照相似程度排序，返回最相近的 top_k 个 chunk。
@@ -72,8 +80,8 @@ def search_chunks(
         ],               #外面还有一个 []因为 Chroma 支持一次查询多个问题
         n_results=top_k  #返回 top_k 个最相似的文本块
     )
-    print("Chroma查询结果:")
-    print(result)
+    result_count = len(result.get("documents", [[]])[0])
+    logger.debug("Chroma search returned result_count=%s", result_count)
 
     return result
 
@@ -99,3 +107,5 @@ def delete_chunks_by_document_id(
             "document_id":document_id
         }
     )
+
+    logger.debug("Deleted Chroma chunks document_id=%s", document_id)

@@ -1,7 +1,11 @@
 import json#导入json模块，用于序列化和反序列化Python对象
+import logging
 
 from app.core.redis import redis_client
 from app.core.config import settings
+
+
+logger = logging.getLogger(__name__)
 
 
 def _get_session_key(session_id: str) -> str:
@@ -20,10 +24,17 @@ def get_history(session_id: str) -> list[dict[str, str]]:
         -1
     )
 
-    return [
+    result = [
         json.loads(message)
         for message in messages
     ]
+
+    logger.debug(
+        "Loaded chat history session_id=%s message_count=%s",
+        session_id,
+        len(result),
+    )
+    return result
 
 
 def add_message(
@@ -54,4 +65,10 @@ def add_message(
     redis_client.expire(
         key,
         settings.session_expire_seconds
+    )
+
+    logger.debug(
+        "Stored chat message session_id=%s role=%s",
+        session_id,
+        role,
     )

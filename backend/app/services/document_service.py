@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy.orm import Session
 
 from app.services.document_crud import (
@@ -27,6 +29,9 @@ from app.services.document_crud import (
 
 from app.models.document import Document
 from app.exceptions.base import BadRequestException
+
+logger = logging.getLogger(__name__)
+
 
 SUPPORTED_CONTENT_TYPES = {
     "text/plain",
@@ -100,6 +105,14 @@ async def process_document(
             file_size
         )
 
+        logger.info(
+            "Processing document document_id=%s filename=%s content_type=%s size_bytes=%s",
+            document.id,
+            file.filename,
+            file.content_type,
+            file_size,
+        )
+
         prepared_data = await _prepare_document_data(
             file,
             document.id
@@ -115,6 +128,12 @@ async def process_document(
             db,
             document.id,
             "completed"
+        )
+
+        logger.info(
+            "Document processing completed document_id=%s chunk_count=%s",
+            document.id,
+            len(prepared_data["chunks"]),
         )
 
 
@@ -134,6 +153,11 @@ async def process_document(
                 db,
                 document.id,
                 "failed"
+            )
+
+            logger.warning(
+                "Document processing failed document_id=%s",
+                document.id,
             )
 
         raise
@@ -162,11 +186,6 @@ async def _prepare_document_data(
         embedded_chunks = embed_chunks(
             chunks
         )
-
-        if embedded_chunks:
-            print("embedding后的chunk:")
-            print(embedded_chunks[0])
-
 
         return {
             "text": text,
@@ -294,6 +313,12 @@ async def update_document_service(
             db,
             document_id,
             "completed"
+        )
+
+        logger.info(
+            "Document update completed document_id=%s chunk_count=%s",
+            document_id,
+            len(prepared_data["chunks"]),
         )
 
 

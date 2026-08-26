@@ -1,3 +1,9 @@
+import logging
+
+
+logger = logging.getLogger(__name__)
+
+
 def split_text(
     text: str,
     filename: str,
@@ -6,9 +12,12 @@ def split_text(
     overlap: int = 100
 ) -> list[dict]:
 
-    print(
-        "split_text收到document_id:",
-        document_id
+    logger.debug(
+        "Splitting document_id=%s filename=%s chunk_size=%s overlap=%s",
+        document_id,
+        filename,
+        chunk_size,
+        overlap,
     )
 
     if not text:

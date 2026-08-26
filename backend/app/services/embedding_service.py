@@ -1,6 +1,11 @@
+import logging
+
 from sentence_transformers import SentenceTransformer
 
 from app.core.config import settings
+
+
+logger = logging.getLogger(__name__)
 
 
 model = SentenceTransformer(
@@ -22,6 +27,12 @@ def generate_embedding(
 def embed_chunks(
     chunks: list[dict]
 ) -> list[dict]:
+
+    logger.debug(
+        "Embedding chunk_count=%s model=%s",
+        len(chunks),
+        settings.embedding_model,
+    )
 
     result = []
 
