@@ -17,6 +17,9 @@ from io import BytesIO
 
 from fastapi import UploadFile
 from pypdf import PdfReader
+from docx import Document as DocxDocument
+from docx.opc.exceptions import PackageNotFoundError
+from zipfile import BadZipFile
 
 from app.services.vector_service import (
     delete_chunks_by_document_id
@@ -33,9 +36,16 @@ from app.exceptions.base import BadRequestException
 logger = logging.getLogger(__name__)
 
 
+DOCX_CONTENT_TYPE = (
+    "application/vnd.openxmlformats-officedocument."
+    "wordprocessingml.document"
+)
+
 SUPPORTED_CONTENT_TYPES = {
     "text/plain",
     "application/pdf",
+    "text/markdown",
+    DOCX_CONTENT_TYPE,
 }
 
 
@@ -70,8 +80,14 @@ async def parse_document(file: UploadFile) -> str:
         if file.content_type == "text/plain":
             return _parse_txt(content)
 
+        if file.content_type == "text/markdown":
+            return _parse_markdown(content)
+
         if file.content_type == "application/pdf":
             return _parse_pdf(content)
+
+        if file.content_type == DOCX_CONTENT_TYPE:
+            return _parse_docx(content)
 
     except ValueError as e:
 
@@ -203,6 +219,47 @@ async def _prepare_document_data(
 def _parse_txt(content: bytes) -> str:
     return content.decode(
         "utf-8"
+    )
+
+
+def _parse_markdown(content: bytes) -> str:
+    return content.decode(
+        "utf-8"
+    )
+
+
+def _parse_docx(content: bytes) -> str:
+    try:
+        document = DocxDocument(
+            BytesIO(content)
+        )
+    except (BadZipFile, PackageNotFoundError, ValueError) as e:
+        raise BadRequestException(
+            "无法解析DOCX文件"
+        ) from e
+
+    paragraphs = [
+        paragraph.text.strip()
+        for paragraph in document.paragraphs
+        if paragraph.text.strip()
+    ]
+
+    table_rows = []
+
+    for table in document.tables:
+        for row in table.rows:
+            cells = [
+                cell.text.strip()
+                for cell in row.cells
+            ]
+
+            if any(cells):
+                table_rows.append(
+                    " | ".join(cells)
+                )
+
+    return "\n".join(
+        paragraphs + table_rows
     )
 
 
