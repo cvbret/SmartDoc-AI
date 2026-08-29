@@ -38,14 +38,23 @@ def test_rag_chat_embeds_searches_builds_context_and_calls_llm(monkeypatch):
     assert question in llm_messages[-1]["content"]
 
 
+@pytest.mark.parametrize(
+    "search_result",
+    [
+        {},
+        {"documents": []},
+        {"documents": [[]]},
+    ],
+)
 def test_rag_chat_calls_llm_with_empty_context_when_no_documents(
     monkeypatch,
+    search_result,
 ):
     from app.services import rag_service
 
     question = "没有匹配资料的问题"
     generate_embedding = Mock(return_value=[0.1, 0.2, 0.3])
-    search_chunks = Mock(return_value={"documents": [[]]})
+    search_chunks = Mock(return_value=search_result)
     chat_with_llm = Mock(return_value="不知道")
     monkeypatch.setattr(
         rag_service,
@@ -63,6 +72,25 @@ def test_rag_chat_calls_llm_with_empty_context_when_no_documents(
     assert "资料:" in prompt
     assert question in prompt
     assert "带薪年假" not in prompt
+
+
+def test_rag_chat_propagates_search_failure(monkeypatch):
+    from app.services import rag_service
+
+    search_chunks = Mock(side_effect=RuntimeError("test search failure"))
+    monkeypatch.setattr(
+        rag_service,
+        "generate_embedding",
+        Mock(return_value=[0.1, 0.2, 0.3]),
+    )
+    monkeypatch.setattr(rag_service, "search_chunks", search_chunks)
+    chat_with_llm = Mock()
+    monkeypatch.setattr(rag_service, "chat_with_llm", chat_with_llm)
+
+    with pytest.raises(RuntimeError, match="test search failure"):
+        rag_service.rag_chat("safe test question", [])
+
+    chat_with_llm.assert_not_called()
 
 
 def test_rag_chat_propagates_llm_failure(monkeypatch):

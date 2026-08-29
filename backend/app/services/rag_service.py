@@ -16,7 +16,8 @@ def rag_chat(
         query_embedding
     )
 
-    documents = result["documents"][0]
+    document_batches = result.get("documents") or []
+    documents = document_batches[0] if document_batches else []
 
 
     context = "\n".join(
@@ -59,23 +60,3 @@ def rag_chat(
 
 
     return answer
-
-
-# 从 Chroma 中检索最相似的文本块
-def retrieve_context(
-    question: str
-) -> str:
-
-    query_embedding = generate_embedding(
-        question
-    )
-
-    result = search_chunks(
-        query_embedding
-    )
-
-
-    documents = result["documents"][0]
-
-
-    return "\n".join(documents) #分隔符.join(列表)意思：使用指定的分隔符，把列表中的多个字符串连接起来。

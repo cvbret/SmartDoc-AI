@@ -79,6 +79,8 @@ def test_chat_returns_answer_and_preserves_conversation_order(
         {"session_id": "test-session"},
         {"message": "missing session"},
         {"session_id": "test-session", "message": None},
+        {"session_id": "test-session", "message": ""},
+        {"session_id": "", "message": "hello"},
     ],
 )
 def test_chat_rejects_invalid_request_without_calling_services(

@@ -268,11 +268,35 @@ def test_delete_document_service_deletes_database_row_and_vectors(
         "text/plain",
         12,
     )
-    delete_chunks = Mock()
+    events = []
+
+    def get_document(*args):
+        events.append("get")
+        return get_document_by_id(*args)
+
+    def delete_chunks(document_id):
+        events.append("chroma")
+
+    def delete_from_database(*args):
+        events.append("db")
+        from app.services.document_crud import delete_document
+
+        return delete_document(*args)
+
     monkeypatch.setattr(
         document_service,
         "delete_chunks_by_document_id",
         delete_chunks,
+    )
+    monkeypatch.setattr(
+        document_service,
+        "get_document_by_id",
+        get_document,
+    )
+    monkeypatch.setattr(
+        document_service,
+        "delete_document",
+        delete_from_database,
     )
 
     result = document_service.delete_document_service(
@@ -281,7 +305,7 @@ def test_delete_document_service_deletes_database_row_and_vectors(
     )
 
     assert result is True
-    delete_chunks.assert_called_once_with(created.id)
+    assert events == ["get", "chroma", "db"]
     assert get_document_by_id(db_session, created.id) is None
 
 
@@ -290,16 +314,23 @@ def test_delete_document_service_returns_false_for_missing_document(
     monkeypatch,
 ):
     delete_chunks = Mock()
+    delete_from_database = Mock()
     monkeypatch.setattr(
         document_service,
         "delete_chunks_by_document_id",
         delete_chunks,
     )
+    monkeypatch.setattr(
+        document_service,
+        "delete_document",
+        delete_from_database,
+    )
 
     result = document_service.delete_document_service(db_session, -1)
 
     assert result is False
-    delete_chunks.assert_called_once_with(-1)
+    delete_chunks.assert_not_called()
+    delete_from_database.assert_not_called()
 
 
 def test_get_document_detail_returns_document_and_none_for_missing(db_session):

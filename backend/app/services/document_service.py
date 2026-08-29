@@ -226,6 +226,15 @@ def delete_document_service(
     document_id: int
 ):
 
+    document = get_document_by_id(
+        db,
+        document_id
+    )
+
+    if not document:
+        return False
+
+
     # 1. 删除Chroma向量
     delete_chunks_by_document_id(
         document_id
