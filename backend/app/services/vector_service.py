@@ -66,6 +66,9 @@ def search_chunks(
     query_embedding: list[float],
     top_k: int = 3 #找几个最相似的文本块
 ):
+    if top_k <= 0:
+        raise ValueError("top_k must be greater than zero")
+
     logger.debug(
         "Searching Chroma collection=%s collection_count=%s top_k=%s",
         settings.chroma_collection_name,
@@ -78,9 +81,11 @@ def search_chunks(
         query_embeddings=[
             query_embedding
         ],               #外面还有一个 []因为 Chroma 支持一次查询多个问题
-        n_results=top_k  #返回 top_k 个最相似的文本块
+        n_results=top_k,  #返回 top_k 个最相似的文本块
+        include=["documents", "metadatas", "distances"],
     )
-    result_count = len(result.get("documents", [[]])[0])
+    document_batches = result.get("documents") or []
+    result_count = len(document_batches[0] or []) if document_batches else 0
     logger.debug("Chroma search returned result_count=%s", result_count)
 
     return result

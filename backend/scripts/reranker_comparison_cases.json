@@ -1,0 +1,26 @@
+{
+  "documents": [
+    {"id": "python_sort_in_place", "topic": "Python", "text": "list.sort() 对列表本身进行排序，原地修改元素顺序，不创建新的列表。它的返回值是 None；可以用 key 指定排序依据。"},
+    {"id": "python_sorted_copy", "topic": "Python", "text": "sorted(iterable) 返回一个新的已排序列表，原来的列表内容和顺序保持不变。sorted 支持 key 和 reverse 参数，也可以处理元组等可迭代对象。"},
+    {"id": "python_reverse", "topic": "Python", "text": "list.reverse() 原地反转列表现有的元素顺序，返回 None。反转并不按元素大小排序；如果原列表无序，反转后仍不一定有序。"},
+    {"id": "docker_image", "topic": "Docker", "text": "Docker 镜像是包含应用程序及运行依赖的只读模板，由多个层组成。docker build 根据 Dockerfile 构建镜像，镜像本身不是正在运行的进程。"},
+    {"id": "docker_container", "topic": "Docker", "text": "Docker 容器是镜像的运行实例，有自己的进程和可写层。docker run 根据镜像创建并启动容器；容器停止后仍然可以保留，随后可用 docker start 再次启动。"},
+    {"id": "docker_volume", "topic": "Docker", "text": "Docker volume 用于在容器之外持久保存数据。挂载命名卷后，删除容器通常不会自动删除这个卷；新容器可以重新挂载同一卷读取数据。"},
+    {"id": "redis_expire", "topic": "Redis", "text": "Redis EXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间。在过期之前键仍可读取，到期后自动失效；这不是立即删除键。"},
+    {"id": "redis_del", "topic": "Redis", "text": "Redis DEL key 删除指定的键，执行后该键立即不可用，不需要等待过期时间。DEL 可以一次删除多个键，并返回实际删除的键数。"},
+    {"id": "redis_persist", "topic": "Redis", "text": "Redis PERSIST key 移除键上已有的过期时间，让键不再因这次 TTL 到期而自动删除。键的值保持不变；这个命令不会给键设置新的倒计时。"},
+    {"id": "http_put", "topic": "HTTP", "text": "HTTP PUT 通常使用请求体提供的完整表示创建或替换目标资源。接口采用整体替换语义时，客户端需要提供完整资源，不能假定遗漏的字段都被保留。"},
+    {"id": "http_patch", "topic": "HTTP", "text": "HTTP PATCH 用于对资源执行部分修改。例如只提交用户昵称的变更，而保留未涉及的头像和其他字段；具体修改格式由接口约定。"},
+    {"id": "http_post", "topic": "HTTP", "text": "HTTP POST 让目标资源按自身语义处理请求体，常见用途是在集合中创建新资源。它不专门表示完整替换或部分更新，重复提交可能产生多个资源。"}
+  ],
+  "queries": [
+    {"id": "Q1", "question": "Python 怎样把列表按大小排序，同时让持有这个列表的其他变量也看到排序后的顺序？", "expected_relevant_id": "python_sort_in_place"},
+    {"id": "Q2", "question": "Python 排序后还要保留原列表的顺序，并把排序结果赋给另一个变量，应该用什么？", "expected_relevant_id": "python_sorted_copy"},
+    {"id": "Q3", "question": "Docker 中包含应用和依赖、可以用来创建多个运行实例的只读模板是什么？", "expected_relevant_id": "docker_image"},
+    {"id": "Q4", "question": "Docker 中具有进程和可写层、停止后还能再次启动的对象是什么？", "expected_relevant_id": "docker_container"},
+    {"id": "Q5", "question": "Redis 中怎样让已有的键再保留 60 秒后自动失效，而不是现在就删除？", "expected_relevant_id": "redis_expire"},
+    {"id": "Q6", "question": "Redis 的键已经设置过期时间，如何取消自动过期但保留它现在的值？", "expected_relevant_id": "redis_persist"},
+    {"id": "Q7", "question": "更新用户资料时只发送新的昵称，其他没提交的字段应保持原样，适合用哪个 HTTP 方法？", "expected_relevant_id": "http_patch"},
+    {"id": "Q8", "question": "客户端发送完整资源表示来替换服务器上的目标资源，通常应使用哪个 HTTP 方法？", "expected_relevant_id": "http_put"}
+  ]
+}

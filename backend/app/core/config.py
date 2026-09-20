@@ -1,3 +1,4 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -18,6 +19,11 @@ class Settings(BaseSettings):
     embedding_model: str = "BAAI/bge-small-zh-v1.5"
 
     chroma_collection_name: str = "smartdoc"
+
+    reranker_model: str = "BAAI/bge-reranker-base"
+
+    retrieval_k: int = Field(default=10, gt=0)
+    rerank_top_n: int = Field(default=3, gt=0)
 
     session_expire_seconds: int = 3600
 

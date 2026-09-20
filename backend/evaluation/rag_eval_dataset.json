@@ -1,0 +1,236 @@
+{
+  "dataset_version": "1.0",
+  "corpus_version": "1.0",
+  "corpus_sha256": "98c73e903a24385a1078742c0cd42006e445693600347228b7c7efec261f645f",
+  "chunking": {
+    "version": "split_text-v1",
+    "chunk_size": 500,
+    "overlap": 100
+  },
+  "samples": [
+    {
+      "id": "EVAL-001",
+      "category": "python",
+      "difficulty": "easy",
+      "type": "direct_fact",
+      "question": "Python 原地排序列表的方法返回什么？",
+      "reference_answer": "list.sort() 返回 None；排序结果在原列表中，不能把返回值当成排序后的列表。",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "category": "python",
+      "difficulty": "medium",
+      "type": "fine_grained",
+      "question": "我想保留列表原来的顺序，同时获得按大小排序的结果，应选 sort、sorted 还是 reverse？",
+      "reference_answer": "应使用 sorted()，它返回新排序列表且保留原列表顺序。sort() 原地排序；reverse() 只是反转现有顺序，不保证按大小有序。",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "category": "python",
+      "difficulty": "medium",
+      "type": "multi_sentence",
+      "question": "字符串列表按长度降序排列时如何设置排序参数？等长字符串的相对顺序会怎样？",
+      "reference_answer": "使用 key=len 和 reverse=True；排序是稳定的，等长字符串保持原来的相对顺序。",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-004",
+      "category": "http",
+      "difficulty": "easy",
+      "type": "direct_fact",
+      "question": "用户资料接口只改昵称而保留未提交的头像，应使用哪个方法？",
+      "reference_answer": "按本资料接口约定，应使用 PATCH，只更新提交的字段，未提交的头像保持不变。",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-005",
+      "category": "http",
+      "difficulty": "medium",
+      "type": "fine_grained",
+      "question": "本资料接口的 PUT 与 PATCH 对没有提交的字段有什么不同要求？",
+      "reference_answer": "PUT 要求提供完整资料并整体替换，不能假定遗漏字段会保留；PATCH 只更新提交的字段，未提交字段保持不变。",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-006",
+      "category": "http",
+      "difficulty": "medium",
+      "type": "multi_sentence",
+      "question": "为什么不能只看 PATCH 方法名就判断请求幂等？把昵称设为固定值和计数加一有什么区别？",
+      "reference_answer": "PATCH 是否幂等取决于操作。反复把昵称设为同一值可幂等；每次计数加一不是幂等。幂等关注重复请求的预期服务器效果，不要求响应内容或状态码相同。",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-007",
+      "category": "docker",
+      "difficulty": "easy",
+      "type": "direct_fact",
+      "question": "已经停止但没有删除的 Docker 容器怎样再次启动？",
+      "reference_answer": "使用 docker start 再次启动；停止不等于删除，容器可写层仍然保留。",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-008",
+      "category": "docker",
+      "difficulty": "medium",
+      "type": "fine_grained",
+      "question": "应用依赖打包和数据库文件跨容器保存，分别应依靠镜像还是命名卷？",
+      "reference_answer": "镜像负责打包应用及运行依赖；命名卷负责在容器生命周期之外保存数据。更换应用镜像不意味着应删除数据卷。",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-009",
+      "category": "docker",
+      "difficulty": "medium",
+      "type": "multi_sentence",
+      "question": "数据库数据目录挂载命名卷后，删除容器还需要担心哪些数据保存问题？",
+      "reference_answer": "删除容器通常不自动删除命名卷，新容器可重新挂载访问数据；但显式删除卷仍会丢失数据，卷也不能替代备份。",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-010",
+      "category": "redis",
+      "difficulty": "easy",
+      "type": "direct_fact",
+      "question": "怎样让 Redis 中已存在的 profile 键在 60 秒后自动失效？",
+      "reference_answer": "执行 EXPIRE profile 60 设置以秒为单位的过期时间；期限内仍可读取，到期后自动失效。",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-011",
+      "category": "redis",
+      "difficulty": "medium",
+      "type": "fine_grained",
+      "question": "Redis 中取消键的自动过期但保留当前值，与马上删除这个键，分别用什么命令？",
+      "reference_answer": "取消已有过期时间并保留键和值用 PERSIST；立即删除键用 DEL。PERSIST 不是设置一个新的倒计时。",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-012",
+      "category": "redis",
+      "difficulty": "easy",
+      "type": "direct_fact",
+      "question": "TTL 查询分别返回 -1 和 -2 时代表什么？",
+      "reference_answer": "-1 表示键存在但没有过期时间；-2 表示键不存在。",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-013",
+      "category": "postgresql",
+      "difficulty": "easy",
+      "type": "direct_fact",
+      "question": "PostgreSQL 主键可以由多个列组成吗？它有哪些基本约束？",
+      "reference_answer": "可以由多个列共同组成；主键要求唯一且非空，一张表有一个主键约束。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-014",
+      "category": "postgresql",
+      "difficulty": "medium",
+      "type": "fine_grained",
+      "question": "转账的扣款与入账怎样避免只完成一步？COMMIT 和 ROLLBACK 有何区别？",
+      "reference_answer": "把扣款与入账放在同一个事务中，并检查业务条件。COMMIT 提交成功使变更生效；ROLLBACK 放弃该事务尚未提交的变更。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-015",
+      "category": "postgresql",
+      "difficulty": "medium",
+      "type": "multi_sentence",
+      "question": "按创建时间查询并分页时，为什么只写 ORDER BY 时间还可能不够稳定？",
+      "reference_answer": "多个记录可能具有相同时间。需要稳定分页时，应在时间排序后加唯一 id 作为第二排序依据；只按重复时间排序不能保证同时间记录的相对顺序。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-016",
+      "category": "postgresql",
+      "difficulty": "medium",
+      "type": "multi_sentence",
+      "question": "为了加快查询，是否应该尽量多建索引？为什么？",
+      "reference_answer": "不应该。索引可帮助某些查询减少扫描，但会占用存储，并增加写入时维护索引的工作。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-017",
+      "category": "python",
+      "difficulty": "hard",
+      "type": "multi_context",
+      "question": "资料接口读取一份 Python 列表并返回排序后的副本，要求原列表不变且不修改服务器资料，应如何选择排序方式和 HTTP 方法？",
+      "reference_answer": "使用 sorted() 生成新的排序列表并保留原列表顺序；读取资料使用 GET，不应把 GET 设计为修改资料的操作。",
+      "reference_context_ids": [
+        "python::chunk_000",
+        "http::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-018",
+      "category": "http",
+      "difficulty": "hard",
+      "type": "multi_context",
+      "question": "按示例应用约定，只改昵称并保留头像后，资料提交成功应该怎样处理 Redis 缓存？删除缓存失败有什么影响？",
+      "reference_answer": "用 PATCH 只提交昵称，保留未提交的头像。数据库更新成功提交后删除对应缓存键，下次读取从数据库加载；若删除失败，需要重试或等待已有 TTL 到期，在此之前可能读到旧缓存。",
+      "reference_context_ids": [
+        "http::chunk_000",
+        "redis::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-019",
+      "category": "docker",
+      "difficulty": "hard",
+      "type": "multi_context",
+      "question": "数据库运行在 Docker 容器中，既要重建容器后保留数据，又要避免转账只完成扣款，分别需要什么机制？",
+      "reference_answer": "把数据库数据目录挂载到命名卷，使删除容器后可由新容器重新挂载数据；把扣款和入账放在同一个 PostgreSQL 事务中并检查业务条件。卷持久性不能代替事务原子性。",
+      "reference_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000"
+      ]
+    },
+    {
+      "id": "EVAL-020",
+      "category": "redis",
+      "difficulty": "hard",
+      "type": "multi_context",
+      "question": "示例应用能否认为 PostgreSQL 事务会自动原子地完成数据库更新和 Redis 缓存删除？正确的提交与缓存处理顺序是什么？",
+      "reference_answer": "不能，PostgreSQL 事务原子性不会自动包含外部 Redis 命令。先确认数据库更新提交成功，再删除对应缓存键；删除失败需重试或等待已有 TTL 到期，期间可能读到旧缓存。",
+      "reference_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000"
+      ]
+    }
+  ]
+}
