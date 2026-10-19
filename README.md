@@ -1,6 +1,6 @@
 # SmartDoc-AI
 
-SmartDoc-AI 是一个企业文档智能问答 / RAG backend。用户可以上传企业文档，系统完成文档解析、chunking、embedding 和 vector retrieval，再结合 DeepSeek 与会话历史生成回答。
+SmartDoc-AI 是一个企业文档智能问答 / RAG backend。用户可以上传企业文档，系统完成文档解析、chunking、embedding、向量召回和 BGE reranking，再结合 DeepSeek 与会话历史生成回答。项目包含固定 Ground Truth、RAGAS 与 stable-context-ID 离线评测及 paired comparison。
 
 ## 项目特性
 
@@ -25,6 +25,7 @@ SmartDoc-AI 是一个企业文档智能问答 / RAG backend。用户可以上传
 - Text chunking
 - `BAAI/bge-small-zh-v1.5` Embedding
 - ChromaDB vector retrieval
+- `BAAI/bge-reranker-base` 二阶段重排，Top-K 候选 → Top-N context
 - DeepSeek `deepseek-chat`
 
 ### Conversation
@@ -64,10 +65,18 @@ flowchart LR
     FastAPI --> PostgreSQL[(PostgreSQL)]
     FastAPI --> Redis[(Redis)]
     FastAPI --> RAG[RAG Service]
-    RAG --> Embedding[Embedding]
+    Documents[Documents] --> Chunk[Parse and Chunk]
+    Chunk --> Embedding[BGE-small Embedding]
     Embedding --> Chroma[(ChromaDB)]
-    Chroma --> Context[Context]
+    RAG --> Query[Question Embedding]
+    Query --> Retrieval[Chroma Top-K]
+    Chroma --> Retrieval
+    Retrieval --> Reranker[BGE Reranker]
+    Reranker --> Context[Top-N Context]
     Context --> DeepSeek[DeepSeek]
+    GroundTruth[Fixed Corpus and 20-sample Ground Truth] --> Eval[Ephemeral Baseline / Reranker Runs]
+    Eval --> Metrics[RAGAS + ID Metrics]
+    Metrics --> Comparison[Saved JSON Paired Comparison]
 ```
 
 ## 文档处理流程
@@ -87,19 +96,48 @@ flowchart TD
 
 ## RAG 问答流程
 
-```mermaid
-flowchart TD
-    Question[Question] --> QueryEmbedding[Embedding]
-    QueryEmbedding --> Retrieval[Chroma retrieval]
-    Retrieval --> TopK[Top-K chunks]
-    TopK --> Context[Context]
-    RedisHistory[(Redis history)] --> Prompt[Context + history]
-    Context --> Prompt
-    Prompt --> DeepSeek[DeepSeek]
-    DeepSeek --> Answer[Answer]
-```
+`Question → BGE-small → Chroma Top-K → BGE Reranker → Top-N Context → shared prompt + history → DeepSeek`
+
+默认 K=10、N=3。离线 baseline 使用相同 K/N 和候选池，保留 Chroma 原始排序；reranker 模式仅增加 BGE 重排。
 
 聊天请求会先将用户消息写入 Redis，再读取 session history；RAG 检索得到的 context 与 history 一起构造 prompt，交给 DeepSeek 生成 answer。
+
+## 固定数据集离线评测
+
+使用 TASK-004 固定 Ground Truth：20 个问题、5 个 chunks，dataset/corpus version 1.0。
+Baseline 和 Reranker 各执行一次完整正式运行，共 40 次样本评估；六项指标均为 20 个成功配对，无失败或跳过。
+两侧使用相同模型、prompt、数据顺序、K=10、Top-3；20/20 候选池的集合和顺序一致。
+
+| Metric | Baseline | Reranker | Delta | Paired N | Win | Tie | Loss |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| faithfulness | 0.927579 | 0.894762 | -0.032817 | 20 | 2 | 13 | 5 |
+| answer_relevancy | 0.843333 | 0.840149 | -0.003185 | 20 | 11 | 3 | 6 |
+| context_precision_llm | 0.950000 | 1.000000 | 0.050000 | 20 | 3 | 17 | 0 |
+| context_recall_llm | 1.000000 | 1.000000 | 0.000000 | 20 | 0 | 20 | 0 |
+| context_precision_id | 0.400000 | 0.400000 | 0.000000 | 20 | 0 | 20 | 0 |
+| context_recall_id | 1.000000 | 1.000000 | 0.000000 | 20 | 0 | 20 | 0 |
+
+Delta 为 reranker − baseline 的绝对分差，仅使用双方成功的同一样本；`abs(delta) < 1e-6` 视为 tie。
+四项 LLM semantic metrics 使用 RAGAS 0.4.3 collections API；两项 ID metrics 独立计算参考 ID overlap。
+
+Reranker 改变了 16/20 个最终 context 排列：11 个改变集合，5 个仅改变顺序，4 个完全相同。
+参考覆盖改善/不变/退化为 **0/20/0**，ID Recall 均为 1.0。观察到 LLM Context Precision 均值增加 0.05，但 Faithfulness 和 Answer Relevancy 均值下降，未证明回答质量整体改善。
+EVAL-018 在最终 contexts 完全相同时仍出现 LLM Context Precision 变化，说明该分数差异不能全部归因于 reranking。
+
+限制：只有 20 samples、5 chunks；K=10 大于 corpus size，实际候选为 5。Answer/Judge 同用 `deepseek-chat`，可能共享偏差；LLM metrics 有运行波动。这是每模式一次的观察比较，不支持统计显著性或大规模泛化结论。ID precision 的 1/3 表示 Top-3 中命中一个参考 context，不是回答准确率。
+
+完整设置、逐样本差异、负向案例与正式结果见 [Evaluation Report](backend/evaluation/results/TASK006_EVALUATION_REPORT.md) 和 [Comparison JSON](backend/evaluation/results/task006_comparison.json)。
+
+在 backend 目录重现（全量评估调用付费 API；未来运行应使用新文件名保留本次证据）：
+
+```powershell
+New-Item -ItemType Directory -Force evaluation/results
+..\venv\Scripts\python.exe -B -m scripts.run_rag_evaluation --mode baseline --output evaluation/results/task006_baseline.json
+..\venv\Scripts\python.exe -B -m scripts.run_rag_evaluation --mode reranker --output evaluation/results/task006_reranker.json
+..\venv\Scripts\python.exe -B -m scripts.compare_rag_evaluations --baseline evaluation/results/task006_baseline.json --reranker evaluation/results/task006_reranker.json --output evaluation/results/task006_comparison.json --report evaluation/results/TASK006_EVALUATION_REPORT.md
+```
+
+Comparison 只读取保存的 JSON，不调用 API、不加载模型。依赖、凭据配置与指标定义见 [Evaluation README](backend/evaluation/README.md)。
 
 ## 项目目录
 

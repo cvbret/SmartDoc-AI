@@ -1,0 +1,1107 @@
+{
+  "metadata": {
+    "timestamp_utc": "2026-09-20T13:56:28.435020+00:00",
+    "run_mode": "baseline",
+    "dataset_version": "1.0",
+    "corpus_version": "1.0",
+    "corpus_sha256": "98c73e903a24385a1078742c0cd42006e445693600347228b7c7efec261f645f",
+    "chunking": {
+      "version": "split_text-v1",
+      "chunk_size": 500,
+      "overlap": 100
+    },
+    "retrieval_k": 10,
+    "configured_retrieval_k": 10,
+    "rerank_top_n": 3,
+    "corpus_context_count": 5,
+    "retrieval_embedding_model": "BAAI/bge-small-zh-v1.5",
+    "retrieval_device": "cpu",
+    "reranker_model": null,
+    "answer_model": "deepseek-chat",
+    "judge_model": "deepseek-chat",
+    "evaluation_embedding_model": "BAAI/bge-small-zh-v1.5",
+    "evaluation_embedding_device": "cpu",
+    "evaluation_embedding_normalize": true,
+    "judge_temperature": 0,
+    "judge_max_tokens": 2048,
+    "judge_max_retries": 2,
+    "judge_api_configured": true,
+    "ragas_version": "0.4.3",
+    "python_version": "3.11.9",
+    "dependency_versions": {
+      "instructor": "1.17.0",
+      "datasets": "5.0.1",
+      "langchain-community": "0.4.1",
+      "openai": "2.53.0",
+      "pydantic": "2.13.4",
+      "sentence-transformers": "5.7.0",
+      "transformers": "5.15.0",
+      "torch": "2.13.0",
+      "numpy": "2.4.6"
+    },
+    "dataset_sample_count": 20,
+    "configured_sample_count": 20,
+    "completed_sample_count": 20,
+    "processed_sample_count": 20,
+    "sample_ids": [
+      "EVAL-001",
+      "EVAL-002",
+      "EVAL-003",
+      "EVAL-004",
+      "EVAL-005",
+      "EVAL-006",
+      "EVAL-007",
+      "EVAL-008",
+      "EVAL-009",
+      "EVAL-010",
+      "EVAL-011",
+      "EVAL-012",
+      "EVAL-013",
+      "EVAL-014",
+      "EVAL-015",
+      "EVAL-016",
+      "EVAL-017",
+      "EVAL-018",
+      "EVAL-019",
+      "EVAL-020"
+    ],
+    "limitations": [
+      "Same-model judging may introduce shared-model bias and common blind spots.",
+      "The small 5-chunk corpus does not represent broad retrieval performance."
+    ]
+  },
+  "samples": [
+    {
+      "sample_id": "EVAL-001",
+      "question": "Python 原地排序列表的方法返回什么？",
+      "reference_answer": "list.sort() 返回 None；排序结果在原列表中，不能把返回值当成排序后的列表。",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "actual_answer": "根据资料，Python 原地排序列表的方法是 `list.sort()`，它按元素大小对原列表排序，不创建新列表，**返回值是 `None`**。\n\n资料还特别提醒：不要把它的返回值当成排序后的列表。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9171004125063136,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-002",
+      "question": "我想保留列表原来的顺序，同时获得按大小排序的结果，应选 sort、sorted 还是 reverse？",
+      "reference_answer": "应使用 sorted()，它返回新排序列表且保留原列表顺序。sort() 原地排序；reverse() 只是反转现有顺序，不保证按大小有序。",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "actual_answer": "应选 **sorted()**。\n\n资料里明确说：**sorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序**；如果你需要**同时保存原始顺序和排序结果**，应使用 **sorted()**。\n\n对比一下：\n\n- **sort()**：原地排序，会修改原列表，且返回 `None`。\n- **reverse()**：只是原地反转现有顺序，不保证按大小有序。\n- **sorted()**：返回一个新的已排序列表，原列表不变，所以能保留原来的顺序。\n\n因此答案是：**用 sorted()**。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.5830700240129663,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-003",
+      "question": "字符串列表按长度降序排列时如何设置排序参数？等长字符串的相对顺序会怎样？",
+      "reference_answer": "使用 key=len 和 reverse=True；排序是稳定的，等长字符串保持原来的相对顺序。",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "actual_answer": "按长度降序排列时，使用 `key=len` 并设置 `reverse=True`，例如 `sorted(列表, key=len, reverse=True)` 或 `列表.sort(key=len, reverse=True)`。\n\n等长字符串的相对顺序会保持不变，因为 Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8215165669468592,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-004",
+      "question": "用户资料接口只改昵称而保留未提交的头像，应使用哪个方法？",
+      "reference_answer": "按本资料接口约定，应使用 PATCH，只更新提交的字段，未提交的头像保持不变。",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ],
+      "reference_contexts": [
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000",
+        "python::chunk_000",
+        "redis::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n"
+      ],
+      "actual_answer": "应使用 **PATCH**。\n\n根据资料：PATCH 只更新提交的字段，未提交的字段保持不变；例如只改昵称而保留头像，应发送 PATCH。",
+      "metrics": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 0.8723882593744271,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-005",
+      "question": "本资料接口的 PUT 与 PATCH 对没有提交的字段有什么不同要求？",
+      "reference_answer": "PUT 要求提供完整资料并整体替换，不能假定遗漏字段会保留；PATCH 只更新提交的字段，未提交字段保持不变。",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ],
+      "reference_contexts": [
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "python::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "actual_answer": "根据资料：\n\n- **PUT**：使用请求体中的**完整表示**替换目标资料，客户端**必须提供完整资料**；**不能把遗漏字段理解为自动保留**。\n- **PATCH**：只更新提交的字段，**未提交的字段保持不变**。\n\n因此，对于没有提交的字段，PUT 不保证保留（应理解为需要客户端完整提交），而 PATCH 会保留未提交字段的原值。资料还举例说明：只改昵称而保留头像，应发送 **PATCH**。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8579458311332293,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-006",
+      "question": "为什么不能只看 PATCH 方法名就判断请求幂等？把昵称设为固定值和计数加一有什么区别？",
+      "reference_answer": "PATCH 是否幂等取决于操作。反复把昵称设为同一值可幂等；每次计数加一不是幂等。幂等关注重复请求的预期服务器效果，不要求响应内容或状态码相同。",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ],
+      "reference_contexts": [
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "http::chunk_000",
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "http::chunk_000",
+        "python::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "actual_answer": "根据资料，不能只看 PATCH 方法名就判断请求幂等，是因为 **PATCH 是否幂等取决于具体操作内容**，而不是取决于方法名本身。\n\n资料中明确说明：\n\n- **PATCH 只更新提交的字段，未提交的字段保持不变。**\n- **PATCH 是否幂等取决于操作：**\n  - 把昵称设为同一个值 **可以幂等**；\n  - 而每次将计数加一 **不是幂等操作**。\n\n两者的区别在于：\n\n1. **把昵称设为固定值**\n   - 例如每次都把昵称设为“张三”。\n   - 重复执行多次，最终结果仍然是昵称等于“张三”。\n   - 所以重复执行相同请求与执行一次对服务器产生的预期效果相同，因此是幂等的。\n\n2. **每次将计数加一**\n   - 例如请求含义是“计数 +1”。\n   - 执行一次计数加 1，执行多次计数会不断累加。\n   - 重复执行相同请求会产生不同的最终结果，因此不是幂等的。\n\n所以，PATCH 只是表示“局部更新”，并不天然保证幂等；必须看它实际执行的操作语义。",
+      "metrics": {
+        "faithfulness": 0.9047619047619048,
+        "answer_relevancy": 0.864077866147016,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-007",
+      "question": "已经停止但没有删除的 Docker 容器怎样再次启动？",
+      "reference_answer": "使用 docker start 再次启动；停止不等于删除，容器可写层仍然保留。",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "docker::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "docker::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "actual_answer": "根据资料，已经停止但没有删除的 Docker 容器可以用 **`docker start`** 再次启动。\n\n资料中明确写到：“停止后可以用 docker start 再次启动，容器的可写层仍然保留。”",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9869485372760849,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-008",
+      "question": "应用依赖打包和数据库文件跨容器保存，分别应依靠镜像还是命名卷？",
+      "reference_answer": "镜像负责打包应用及运行依赖；命名卷负责在容器生命周期之外保存数据。更换应用镜像不意味着应删除数据卷。",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "actual_answer": "应用依赖打包应依靠**镜像**；数据库文件跨容器保存应依靠**命名卷**。\n\n资料中明确说明：镜像是包含应用程序和运行依赖的只读模板，解决应用及依赖的打包问题；命名卷在容器之外保存数据，把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷，新容器挂载同一卷可以访问保留的数据，因此命名卷解决容器生命周期之外的数据保存问题。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8539601772793416,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-009",
+      "question": "数据库数据目录挂载命名卷后，删除容器还需要担心哪些数据保存问题？",
+      "reference_answer": "删除容器通常不自动删除命名卷，新容器可重新挂载访问数据；但显式删除卷仍会丢失数据，卷也不能替代备份。",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "actual_answer": "根据资料，数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷，新容器挂载同一卷仍可访问保留的数据。但仍需注意这些问题：\n\n1. **显式删除卷会丢失数据**：虽然删除容器通常不会自动删除命名卷，但如果显式删除卷，卷中的数据仍会丢失。\n\n2. **卷不能替代备份**：命名卷可以解决容器生命周期之外的数据保存问题，但它不等于备份。仍然需要另行做好备份。\n\n3. **卷的持久性不等于事务原子性**：命名卷能保存数据，但这并不意味着数据库的一组写操作具有事务原子性。\n\n所以，删除容器后主要还要担心：卷是否会被显式删除、是否有可靠备份，以及不能把卷的持久性误认为数据库事务原子性。",
+      "metrics": {
+        "faithfulness": 0.7857142857142857,
+        "answer_relevancy": 0.9184032516116333,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-010",
+      "question": "怎样让 Redis 中已存在的 profile 键在 60 秒后自动失效？",
+      "reference_answer": "执行 EXPIRE profile 60 设置以秒为单位的过期时间；期限内仍可读取，到期后自动失效。",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n"
+      ],
+      "actual_answer": "使用 `EXPIRE` 命令：`EXPIRE profile 60`。  \n它会为已存在的 `profile` 键设置 60 秒的过期时间，期限内仍可读取，到期后自动失效。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6554645891858843,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-011",
+      "question": "Redis 中取消键的自动过期但保留当前值，与马上删除这个键，分别用什么命令？",
+      "reference_answer": "取消已有过期时间并保留键和值用 PERSIST；立即删除键用 DEL。PERSIST 不是设置一个新的倒计时。",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "redis::chunk_000",
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "redis::chunk_000",
+        "docker::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "actual_answer": "根据资料：\n\n- **取消键的自动过期但保留当前值**：用 **PERSIST key**。资料中说明它“移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效”。\n- **马上删除这个键**：用 **DEL key**。资料中说明它“立即删除指定键，不等待到期；返回实际删除的键数”。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8616252364122728,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-012",
+      "question": "TTL 查询分别返回 -1 和 -2 时代表什么？",
+      "reference_answer": "-1 表示键存在但没有过期时间；-2 表示键不存在。",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000",
+        "python::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "actual_answer": "TTL 查询返回 **-1** 表示**键存在但没有过期时间**；返回 **-2** 表示**键不存在**。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9532909813538161,
+        "context_precision_llm": 0.3333333333,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-013",
+      "question": "PostgreSQL 主键可以由多个列组成吗？它有哪些基本约束？",
+      "reference_answer": "可以由多个列共同组成；主键要求唯一且非空，一张表有一个主键约束。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "reference_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "actual_answer": "可以。根据资料：\n\n- **PostgreSQL 主键可以由多个列共同组成**。\n- 主键的基本约束是：**标识表中的一行，要求唯一且非空**。\n- **一张表有一个主键约束**。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9184421266543711,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-014",
+      "question": "转账的扣款与入账怎样避免只完成一步？COMMIT 和 ROLLBACK 有何区别？",
+      "reference_answer": "把扣款与入账放在同一个事务中，并检查业务条件。COMMIT 提交成功使变更生效；ROLLBACK 放弃该事务尚未提交的变更。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "reference_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000",
+        "python::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "actual_answer": "根据资料：\n\n**转账的扣款与入账怎样避免只完成一步？**\n\n需要把转账中的扣款和入账放在**同一个事务**中，才能避免只完成其中一步。事务将一组数据库操作作为一个整体。应用还需检查业务条件。\n\n**COMMIT 和 ROLLBACK 的区别：**\n\n- **COMMIT**：提交事务，成功后变更生效。\n- **ROLLBACK**：放弃本事务尚未提交的变更。\n\n另外需要说明的是，事务原子性只针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8587949631922807,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-015",
+      "question": "按创建时间查询并分页时，为什么只写 ORDER BY 时间还可能不够稳定？",
+      "reference_answer": "多个记录可能具有相同时间。需要稳定分页时，应在时间排序后加唯一 id 作为第二排序依据；只按重复时间排序不能保证同时间记录的相对顺序。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "reference_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "python::chunk_000",
+        "http::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n"
+      ],
+      "actual_answer": "根据资料，`SELECT` 不带 `ORDER BY` 时不能依赖结果的固定顺序；需要按时间排序时应明确 `ORDER BY`。但如果**多个记录时间相同且需要稳定分页**，仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n\n因此，按创建时间查询并分页时，只写 `ORDER BY 创建时间` 可能不够稳定；资料建议可再添加唯一的 `id` 作为第二排序依据，以保证同时间记录的相对顺序稳定。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7778169916082263,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-016",
+      "question": "为了加快查询，是否应该尽量多建索引？为什么？",
+      "reference_answer": "不应该。索引可帮助某些查询减少扫描，但会占用存储，并增加写入时维护索引的工作。",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "reference_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n"
+      ],
+      "actual_answer": "根据资料，**不应该尽量多建索引**。\n\n原因是：索引虽然可以帮助某些查询减少扫描，但它也有代价——**占用存储**，并且**会增加写入时维护索引的工作**。所以资料明确说明“不是越多越好”。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9029443050762324,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.3333333333333333,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-017",
+      "question": "资料接口读取一份 Python 列表并返回排序后的副本，要求原列表不变且不修改服务器资料，应如何选择排序方式和 HTTP 方法？",
+      "reference_answer": "使用 sorted() 生成新的排序列表并保留原列表顺序；读取资料使用 GET，不应把 GET 设计为修改资料的操作。",
+      "reference_context_ids": [
+        "python::chunk_000",
+        "http::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "docker::chunk_000",
+        "redis::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Python 列表排序指南\n\n列表是可变对象。两个变量引用同一个列表时，对这个列表的原地修改会通过两个变量体现出来。\n\nlist.sort() 按元素大小对原列表排序，不创建新列表，返回值是 None。不要把它的返回值当成排序后的列表。list.reverse() 仅反转现有顺序，不保证按大小有序，同样原地修改并返回 None。\n\nsorted(iterable) 返回新的已排序列表，保留原列表的内容和顺序。需要同时保存原始顺序和排序结果时，应使用 sorted()。sorted() 也能接收元组等可迭代对象。\n\nsort() 和 sorted() 都支持 key 参数指定比较依据，例如按字符串长度排序可用 key=len；reverse=True 表示按比较依据降序排列。Python 排序是稳定的：比较依据相同的元素保留原来的相对顺序。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n"
+      ],
+      "actual_answer": "应选择 **sorted()** 来排序，并使用 **GET** 方法来读取资料接口。\n\n理由：\n\n- 资料要求“返回排序后的副本，且原列表不变”，所以不应使用 `list.sort()`，因为它会原地修改原列表并返回 `None`；应使用 `sorted(iterable)`，它会返回新的已排序列表，同时保留原列表的内容和顺序。\n- 资料要求“不修改服务器资料”，因此应使用 **GET** 读取资料。资料中明确说明：GET 用于读取资料，不应被设计为修改资料的操作。\n\n因此，排序方式用 `sorted()`，HTTP 方法用 `GET`。",
+      "metrics": {
+        "faithfulness": 0.1111111111111111,
+        "answer_relevancy": 0.7125505682854708,
+        "context_precision_llm": 0.8333333332916666,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.6666666666666666,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-018",
+      "question": "按示例应用约定，只改昵称并保留头像后，资料提交成功应该怎样处理 Redis 缓存？删除缓存失败有什么影响？",
+      "reference_answer": "用 PATCH 只提交昵称，保留未提交的头像。数据库更新成功提交后删除对应缓存键，下次读取从数据库加载；若删除失败，需要重试或等待已有 TTL 到期，在此之前可能读到旧缓存。",
+      "reference_context_ids": [
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "reference_contexts": [
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "redis::chunk_000",
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "redis::chunk_000",
+        "http::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# HTTP 资料更新接口指南\n\n本知识库的用户资料接口约定：PUT 使用请求体中的完整表示替换目标资料，客户端必须提供完整资料；不能把遗漏字段理解为自动保留。PATCH 只更新提交的字段，未提交的字段保持不变。例如只改昵称而保留头像，应发送 PATCH。\n\nGET 用于读取资料，不应被设计为修改资料的操作。POST 常用于向集合创建新资源，重复提交可能创建多个资源。不能仅凭使用 POST 就假定请求幂等。\n\n幂等描述的是重复执行相同请求与执行一次对服务器产生的预期效果相同，不要求每次响应内容或状态码相同。按整体替换语义实现的 PUT 是幂等的。PATCH 是否幂等取决于操作：把昵称设为同一个值可幂等，而每次将计数加一不是幂等操作。\n\n接口设计需把读取、局部更新和整体替换的语义写清楚。这里的 PATCH 字段保留规则是本资料接口的明确约定，不能自动推广到所有接口的任意补丁格式。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "actual_answer": "按资料中的示例应用约定，PostgreSQL 是权威存储，Redis 只保存缓存副本。\n\n只改昵称并保留头像，应使用 **PATCH** 更新资料。数据库更新成功提交后，应用应**删除对应的 Redis 缓存键**；下次读取时再从数据库加载最新资料。\n\n这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要**重试或等待已有 TTL 到期**；在此之前，可能读到旧缓存。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8723522568000278,
+        "context_precision_llm": 0.8333333332916666,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.6666666666666666,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-019",
+      "question": "数据库运行在 Docker 容器中，既要重建容器后保留数据，又要避免转账只完成扣款，分别需要什么机制？",
+      "reference_answer": "把数据库数据目录挂载到命名卷，使删除容器后可由新容器重新挂载数据；把扣款和入账放在同一个 PostgreSQL 事务中并检查业务条件。卷持久性不能代替事务原子性。",
+      "reference_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n"
+      ],
+      "actual_answer": "需要两个不同层面的机制：\n\n1. **重建容器后保留数据库数据：用命名卷（named volume）**\n   - 把数据库数据目录挂载到命名卷，数据保存在容器之外。\n   - 删除/重建容器通常不会自动删除该卷，新容器挂载同一卷即可访问原有数据。\n   - 注意：显式删除卷仍会丢失数据，卷也不能替代备份。\n\n2. **避免转账只完成扣款：用数据库事务**\n   - 把扣款和入账放在同一个事务中：`BEGIN` 开始，成功则 `COMMIT`，失败则 `ROLLBACK`。\n   - 这样可保证这组数据库操作作为一个整体生效或放弃，避免只完成其中一步。\n   - 应用还需检查业务条件；事务原子性只针对事务内的数据库操作，不会自动包含外部 Redis 命令等跨系统操作。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8648393937886136,
+        "context_precision_llm": 0.9999999999,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.6666666666666666,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    },
+    {
+      "sample_id": "EVAL-020",
+      "question": "示例应用能否认为 PostgreSQL 事务会自动原子地完成数据库更新和 Redis 缓存删除？正确的提交与缓存处理顺序是什么？",
+      "reference_answer": "不能，PostgreSQL 事务原子性不会自动包含外部 Redis 命令。先确认数据库更新提交成功，再删除对应缓存键；删除失败需重试或等待已有 TTL 到期，期间可能读到旧缓存。",
+      "reference_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "reference_contexts": [
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n"
+      ],
+      "configured_retrieval_k": 10,
+      "actual_candidate_count": 5,
+      "candidate_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000"
+      ],
+      "retrieved_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000"
+      ],
+      "retrieved_contexts": [
+        "# PostgreSQL 事务与查询指南\n\n事务将一组数据库操作作为一个整体。BEGIN 开始事务，COMMIT 提交成功后变更生效，ROLLBACK 放弃本事务尚未提交的变更。转账中的扣款和入账需要放在同一个事务中，才能避免只完成其中一步；应用还需检查业务条件。\n\n事务原子性针对事务内的数据库操作，不会自动把外部 Redis 命令包括进来。只有确认数据库提交成功，应用才能把这次数据库更新视为已完成。\n\n主键标识表中的一行，要求唯一且非空。一张表有一个主键约束，可以由多个列共同组成。索引可以帮助某些查询减少扫描，但占用存储，并增加写入时维护索引的工作；不是越多越好。\n\nSELECT 不带 ORDER BY 时不能依赖结果的固定顺序。需要按时间排序时应明确 ORDER BY；如果多个记录时间相同且需要稳定分页，可再添加唯一的 id 作为第二排序依据。仅按可能重复的时间字段排序，不能保证这些同时间记录的相对顺序。\n",
+        "# Redis 缓存生命周期指南\n\nEXPIRE key seconds 为已经存在的键设置以秒为单位的过期时间，例如 EXPIRE profile 60。在期限内键仍可读取，到期后自动失效。DEL key 立即删除指定键，不等待到期；返回实际删除的键数。\n\nPERSIST key 移除已有过期时间，保留键和值，让键不再因这次 TTL 到期而失效。它不会延长成一个新的固定倒计时，也不会修改值。\n\nTTL key 查询剩余生存时间，以秒为单位。返回 -1 表示键存在但没有过期时间，返回 -2 表示键不存在。普通非负结果表示剩余秒数。\n\n在本示例应用中，PostgreSQL 是资料的权威存储，Redis 只保存缓存副本。数据库更新成功提交后，应用删除对应缓存键；下次读取再从数据库加载。这是应用约定，不是 Redis 自动保证的跨系统事务。如果删除缓存失败，需要重试或等待已有 TTL 到期；在此之前可能读到旧缓存。\n",
+        "# Docker 应用与数据指南\n\n镜像是包含应用程序和运行依赖的只读模板。docker build 根据 Dockerfile 构建镜像。容器是镜像的运行实例，具有进程和自己的可写层；docker run 创建并启动容器。\n\n停止容器不等于删除容器。停止后可以用 docker start 再次启动，容器的可写层仍然保留。删除容器会丢失它的可写层，因此不能只把需要长期保存的数据库文件放在那里。\n\n命名卷在容器之外保存数据。把数据库数据目录挂载到命名卷后，删除容器通常不会自动删除该卷；新容器挂载同一卷可以访问保留的数据。显式删除卷仍会使其中的数据丢失。卷不能替代备份。\n\n镜像解决应用及依赖的打包问题，命名卷解决容器生命周期之外的数据保存问题。更换应用镜像并不意味着应删除数据卷。卷的持久性也不等于数据库的一组写操作具有事务原子性。\n"
+      ],
+      "actual_answer": "不能。资料明确说明：事务原子性只针对事务内的数据库操作，**不会自动把外部 Redis 命令包括进来**；PostgreSQL 是权威存储，Redis 只保存缓存副本，删除缓存是应用约定，不是 Redis 自动保证的跨系统事务。\n\n正确的提交与缓存处理顺序是：\n\n1. **先完成 PostgreSQL 事务并确认提交成功**：即执行数据库更新，并用 `COMMIT` 提交；只有确认数据库提交成功后，应用才能把这次数据库更新视为已完成。\n2. **数据库更新成功提交后，再删除对应缓存键**：下次读取时再从数据库加载。\n\n如果删除缓存失败，需要**重试**或**等待已有 TTL 到期**；在此之前可能读到旧缓存。",
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8131338737339213,
+        "context_precision_llm": 0.99999999995,
+        "context_recall_llm": 1.0,
+        "context_precision_id": 0.6666666666666666,
+        "context_recall_id": 1.0
+      },
+      "metric_status": {
+        "faithfulness": "success",
+        "answer_relevancy": "success",
+        "context_precision_llm": "success",
+        "context_recall_llm": "success",
+        "context_precision_id": "success",
+        "context_recall_id": "success"
+      },
+      "errors": [],
+      "status": "completed"
+    }
+  ],
+  "summary": {
+    "faithfulness": {
+      "configured_count": 20,
+      "successful_count": 20,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "mean_of_successful_values": 0.9275793650793652
+    },
+    "answer_relevancy": {
+      "configured_count": 20,
+      "successful_count": 20,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "mean_of_successful_values": 0.8433333106189496
+    },
+    "context_precision_llm": {
+      "configured_count": 20,
+      "successful_count": 20,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "mean_of_successful_values": 0.9499999999116667
+    },
+    "context_recall_llm": {
+      "configured_count": 20,
+      "successful_count": 20,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "mean_of_successful_values": 1.0
+    },
+    "context_precision_id": {
+      "configured_count": 20,
+      "successful_count": 20,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "mean_of_successful_values": 0.4
+    },
+    "context_recall_id": {
+      "configured_count": 20,
+      "successful_count": 20,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "mean_of_successful_values": 1.0
+    }
+  }
+}
