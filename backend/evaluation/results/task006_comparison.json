@@ -1,0 +1,1672 @@
+{
+  "metadata_validation": {
+    "compatible": true,
+    "validated_fields": [
+      "dataset_version",
+      "corpus_version",
+      "corpus_sha256",
+      "configured_sample_count",
+      "retrieval_k",
+      "configured_retrieval_k",
+      "rerank_top_n",
+      "answer_model",
+      "judge_model",
+      "evaluation_embedding_model",
+      "ragas_version",
+      "chunking",
+      "retrieval_embedding_model",
+      "retrieval_device",
+      "evaluation_embedding_device",
+      "evaluation_embedding_normalize",
+      "judge_temperature",
+      "judge_max_tokens",
+      "judge_max_retries",
+      "corpus_context_count",
+      "dataset_sample_count",
+      "python_version",
+      "dependency_versions"
+    ],
+    "sample_order_equal": true,
+    "candidate_pool_issues": [],
+    "reranker_attribution_valid": true
+  },
+  "setup": {
+    "dataset_version": "1.0",
+    "corpus_version": "1.0",
+    "corpus_sha256": "98c73e903a24385a1078742c0cd42006e445693600347228b7c7efec261f645f",
+    "configured_sample_count": 20,
+    "retrieval_k": 10,
+    "configured_retrieval_k": 10,
+    "rerank_top_n": 3,
+    "answer_model": "deepseek-chat",
+    "judge_model": "deepseek-chat",
+    "evaluation_embedding_model": "BAAI/bge-small-zh-v1.5",
+    "ragas_version": "0.4.3",
+    "chunking": {
+      "version": "split_text-v1",
+      "chunk_size": 500,
+      "overlap": 100
+    },
+    "retrieval_embedding_model": "BAAI/bge-small-zh-v1.5",
+    "retrieval_device": "cpu",
+    "evaluation_embedding_device": "cpu",
+    "evaluation_embedding_normalize": true,
+    "judge_temperature": 0,
+    "judge_max_tokens": 2048,
+    "judge_max_retries": 2,
+    "corpus_context_count": 5,
+    "dataset_sample_count": 20,
+    "python_version": "3.11.9",
+    "dependency_versions": {
+      "instructor": "1.17.0",
+      "datasets": "5.0.1",
+      "langchain-community": "0.4.1",
+      "openai": "2.53.0",
+      "pydantic": "2.13.4",
+      "sentence-transformers": "5.7.0",
+      "transformers": "5.15.0",
+      "torch": "2.13.0",
+      "numpy": "2.4.6"
+    }
+  },
+  "run_timestamps": {
+    "baseline": "2026-09-20T13:56:28.435020+00:00",
+    "reranker": "2026-09-20T14:02:01.440397+00:00"
+  },
+  "tolerance": 1e-06,
+  "limitations": [
+    "Only 20 samples and 5 chunks; this is a narrow fixed-corpus evaluation.",
+    "K=10 exceeds corpus size, so actual candidate count is 5; final Top-N is 3.",
+    "Answer and Judge both use deepseek-chat and may share biases and blind spots.",
+    "LLM metrics have Judge variability: this is a single-run observational comparison.",
+    "One formal run per mode does not establish statistical significance or generalization.",
+    "ID precision is reference-ID overlap, not answer accuracy; one reference in Top-3 yields 1/3."
+  ],
+  "retrieval_summary": {
+    "sample_count": 20,
+    "exact_same": 4,
+    "changed": 16,
+    "same_set_different_order": 5,
+    "different_set": 11,
+    "candidate_same_set": 20,
+    "candidate_same_order": 20,
+    "reference_coverage": {
+      "improved": 0,
+      "unchanged": 20,
+      "degraded": 0,
+      "unavailable": 0
+    }
+  },
+  "metrics": {
+    "faithfulness": {
+      "configured_count": 20,
+      "completion": {
+        "baseline": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        },
+        "reranker": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "paired_count": 20,
+      "paired_sample_ids": [
+        "EVAL-001",
+        "EVAL-002",
+        "EVAL-003",
+        "EVAL-004",
+        "EVAL-005",
+        "EVAL-006",
+        "EVAL-007",
+        "EVAL-008",
+        "EVAL-009",
+        "EVAL-010",
+        "EVAL-011",
+        "EVAL-012",
+        "EVAL-013",
+        "EVAL-014",
+        "EVAL-015",
+        "EVAL-016",
+        "EVAL-017",
+        "EVAL-018",
+        "EVAL-019",
+        "EVAL-020"
+      ],
+      "excluded_sample_ids": [],
+      "baseline_paired_mean": 0.9275793650793651,
+      "reranker_paired_mean": 0.8947619047619048,
+      "mean_delta": -0.032817460317460356,
+      "wins": 2,
+      "ties": 13,
+      "losses": 5
+    },
+    "answer_relevancy": {
+      "configured_count": 20,
+      "completion": {
+        "baseline": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        },
+        "reranker": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "paired_count": 20,
+      "paired_sample_ids": [
+        "EVAL-001",
+        "EVAL-002",
+        "EVAL-003",
+        "EVAL-004",
+        "EVAL-005",
+        "EVAL-006",
+        "EVAL-007",
+        "EVAL-008",
+        "EVAL-009",
+        "EVAL-010",
+        "EVAL-011",
+        "EVAL-012",
+        "EVAL-013",
+        "EVAL-014",
+        "EVAL-015",
+        "EVAL-016",
+        "EVAL-017",
+        "EVAL-018",
+        "EVAL-019",
+        "EVAL-020"
+      ],
+      "excluded_sample_ids": [],
+      "baseline_paired_mean": 0.8433333106189494,
+      "reranker_paired_mean": 0.8401487537341294,
+      "mean_delta": -0.00318455688482,
+      "wins": 11,
+      "ties": 3,
+      "losses": 6
+    },
+    "context_precision_llm": {
+      "configured_count": 20,
+      "completion": {
+        "baseline": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        },
+        "reranker": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "paired_count": 20,
+      "paired_sample_ids": [
+        "EVAL-001",
+        "EVAL-002",
+        "EVAL-003",
+        "EVAL-004",
+        "EVAL-005",
+        "EVAL-006",
+        "EVAL-007",
+        "EVAL-008",
+        "EVAL-009",
+        "EVAL-010",
+        "EVAL-011",
+        "EVAL-012",
+        "EVAL-013",
+        "EVAL-014",
+        "EVAL-015",
+        "EVAL-016",
+        "EVAL-017",
+        "EVAL-018",
+        "EVAL-019",
+        "EVAL-020"
+      ],
+      "excluded_sample_ids": [],
+      "baseline_paired_mean": 0.9499999999116666,
+      "reranker_paired_mean": 0.9999999999075,
+      "mean_delta": 0.04999999999583338,
+      "wins": 3,
+      "ties": 17,
+      "losses": 0
+    },
+    "context_recall_llm": {
+      "configured_count": 20,
+      "completion": {
+        "baseline": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        },
+        "reranker": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "paired_count": 20,
+      "paired_sample_ids": [
+        "EVAL-001",
+        "EVAL-002",
+        "EVAL-003",
+        "EVAL-004",
+        "EVAL-005",
+        "EVAL-006",
+        "EVAL-007",
+        "EVAL-008",
+        "EVAL-009",
+        "EVAL-010",
+        "EVAL-011",
+        "EVAL-012",
+        "EVAL-013",
+        "EVAL-014",
+        "EVAL-015",
+        "EVAL-016",
+        "EVAL-017",
+        "EVAL-018",
+        "EVAL-019",
+        "EVAL-020"
+      ],
+      "excluded_sample_ids": [],
+      "baseline_paired_mean": 1.0,
+      "reranker_paired_mean": 1.0,
+      "mean_delta": 0.0,
+      "wins": 0,
+      "ties": 20,
+      "losses": 0
+    },
+    "context_precision_id": {
+      "configured_count": 20,
+      "completion": {
+        "baseline": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        },
+        "reranker": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "paired_count": 20,
+      "paired_sample_ids": [
+        "EVAL-001",
+        "EVAL-002",
+        "EVAL-003",
+        "EVAL-004",
+        "EVAL-005",
+        "EVAL-006",
+        "EVAL-007",
+        "EVAL-008",
+        "EVAL-009",
+        "EVAL-010",
+        "EVAL-011",
+        "EVAL-012",
+        "EVAL-013",
+        "EVAL-014",
+        "EVAL-015",
+        "EVAL-016",
+        "EVAL-017",
+        "EVAL-018",
+        "EVAL-019",
+        "EVAL-020"
+      ],
+      "excluded_sample_ids": [],
+      "baseline_paired_mean": 0.39999999999999997,
+      "reranker_paired_mean": 0.39999999999999997,
+      "mean_delta": 0.0,
+      "wins": 0,
+      "ties": 20,
+      "losses": 0
+    },
+    "context_recall_id": {
+      "configured_count": 20,
+      "completion": {
+        "baseline": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        },
+        "reranker": {
+          "success": 20,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "paired_count": 20,
+      "paired_sample_ids": [
+        "EVAL-001",
+        "EVAL-002",
+        "EVAL-003",
+        "EVAL-004",
+        "EVAL-005",
+        "EVAL-006",
+        "EVAL-007",
+        "EVAL-008",
+        "EVAL-009",
+        "EVAL-010",
+        "EVAL-011",
+        "EVAL-012",
+        "EVAL-013",
+        "EVAL-014",
+        "EVAL-015",
+        "EVAL-016",
+        "EVAL-017",
+        "EVAL-018",
+        "EVAL-019",
+        "EVAL-020"
+      ],
+      "excluded_sample_ids": [],
+      "baseline_paired_mean": 1.0,
+      "reranker_paired_mean": 1.0,
+      "mean_delta": 0.0,
+      "wins": 0,
+      "ties": 20,
+      "losses": 0
+    }
+  },
+  "samples": [
+    {
+      "sample_id": "EVAL-001",
+      "question": "Python 原地排序列表的方法返回什么？",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "python::chunk_000",
+        "redis::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "redis::chunk_000"
+      ],
+      "removed_context_ids": [
+        "http::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-002",
+      "question": "我想保留列表原来的顺序，同时获得按大小排序的结果，应选 sort、sorted 还是 reverse？",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "same_order": true,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.16352839928082763,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-003",
+      "question": "字符串列表按长度降序排列时如何设置排序参数？等长字符串的相对顺序会怎样？",
+      "reference_context_ids": [
+        "python::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "redis::chunk_000"
+      ],
+      "removed_context_ids": [
+        "http::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": -0.5714285714285714,
+        "answer_relevancy": 0.0772690212847662,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-004",
+      "question": "用户资料接口只改昵称而保留未提交的头像，应使用哪个方法？",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "redis::chunk_000"
+      ],
+      "removed_context_ids": [
+        "docker::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "http::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "docker::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "http::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.019360201796144616,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-005",
+      "question": "本资料接口的 PUT 与 PATCH 对没有提交的字段有什么不同要求？",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": true,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "http::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "http::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": -0.11111111111111116,
+        "answer_relevancy": -0.12076347164005341,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-006",
+      "question": "为什么不能只看 PATCH 方法名就判断请求幂等？把昵称设为固定值和计数加一有什么区别？",
+      "reference_context_ids": [
+        "http::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "http::chunk_000",
+        "python::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "http::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "redis::chunk_000"
+      ],
+      "removed_context_ids": [
+        "python::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "http::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "python::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "http::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.09523809523809523,
+        "answer_relevancy": 0.0,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-007",
+      "question": "已经停止但没有删除的 Docker 容器怎样再次启动？",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "docker::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "docker::chunk_000",
+        "redis::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "removed_context_ids": [
+        "http::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "docker::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "docker::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": -0.015144555682174654,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-008",
+      "question": "应用依赖打包和数据库文件跨容器保存，分别应依靠镜像还是命名卷？",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "docker::chunk_000",
+        "redis::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "redis::chunk_000"
+      ],
+      "removed_context_ids": [
+        "http::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "docker::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "docker::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.02463959135765459,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-009",
+      "question": "数据库数据目录挂载命名卷后，删除容器还需要担心哪些数据保存问题？",
+      "reference_context_ids": [
+        "docker::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "docker::chunk_000",
+        "redis::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "docker::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "docker::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": -0.007936507936507908,
+        "answer_relevancy": 0.0009950565944119028,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-010",
+      "question": "怎样让 Redis 中已存在的 profile 键在 60 秒后自动失效？",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "http::chunk_000"
+      ],
+      "removed_context_ids": [
+        "docker::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "docker::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0541277331448663,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-011",
+      "question": "Redis 中取消键的自动过期但保留当前值，与马上删除这个键，分别用什么命令？",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "redis::chunk_000",
+        "docker::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "http::chunk_000"
+      ],
+      "removed_context_ids": [
+        "docker::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "docker::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.013520927214188405,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-012",
+      "question": "TTL 查询分别返回 -1 和 -2 时代表什么？",
+      "reference_context_ids": [
+        "redis::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "postgresql::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": -0.30740015183425495,
+        "context_precision_llm": 0.6666666666000001,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-013",
+      "question": "PostgreSQL 主键可以由多个列组成吗？它有哪些基本约束？",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "http::chunk_000"
+      ],
+      "same_order": true,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": -0.20019870761032688,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-014",
+      "question": "转账的扣款与入账怎样避免只完成一步？COMMIT 和 ROLLBACK 有何区别？",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "docker::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "docker::chunk_000"
+      ],
+      "removed_context_ids": [
+        "redis::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "docker::chunk_000",
+          "http::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": -0.19999999999999996,
+        "answer_relevancy": -0.1461499558490149,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-015",
+      "question": "按创建时间查询并分页时，为什么只写 ORDER BY 时间还可能不够稳定？",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "python::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "postgresql::chunk_000",
+        "python::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "python::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "python::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": -0.375,
+        "answer_relevancy": 0.10503523852186536,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-016",
+      "question": "为了加快查询，是否应该尽量多建索引？为什么？",
+      "reference_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "python::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "postgresql::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "redis::chunk_000"
+      ],
+      "removed_context_ids": [
+        "python::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "python::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "http::chunk_000",
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-017",
+      "question": "资料接口读取一份 Python 列表并返回排序后的副本，要求原列表不变且不修改服务器资料，应如何选择排序方式和 HTTP 方法？",
+      "reference_context_ids": [
+        "python::chunk_000",
+        "http::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "python::chunk_000",
+        "postgresql::chunk_000",
+        "http::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "python::chunk_000",
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": false,
+      "added_context_ids": [
+        "redis::chunk_000"
+      ],
+      "removed_context_ids": [
+        "postgresql::chunk_000"
+      ],
+      "baseline_coverage": {
+        "reference_hits": [
+          "http::chunk_000",
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "http::chunk_000",
+          "python::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.5138888888888888,
+        "answer_relevancy": 0.20524798546103717,
+        "context_precision_llm": 0.1666666666583334,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-018",
+      "question": "按示例应用约定，只改昵称并保留头像后，资料提交成功应该怎样处理 Redis 缓存？删除缓存失败有什么影响？",
+      "reference_context_ids": [
+        "http::chunk_000",
+        "redis::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "redis::chunk_000",
+        "http::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "redis::chunk_000",
+        "http::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "same_order": true,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "http::chunk_000",
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "http::chunk_000",
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "postgresql::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": -0.05940333809454046,
+        "context_precision_llm": 0.1666666666083334,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-019",
+      "question": "数据库运行在 Docker 容器中，既要重建容器后保留数据，又要避免转账只完成扣款，分别需要什么机制？",
+      "reference_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "docker::chunk_000",
+        "postgresql::chunk_000",
+        "redis::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "postgresql::chunk_000",
+        "docker::chunk_000",
+        "redis::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "docker::chunk_000",
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "redis::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "docker::chunk_000",
+          "postgresql::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "redis::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0513417345768824,
+        "context_precision_llm": 5.000000413701855e-11,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    },
+    {
+      "sample_id": "EVAL-020",
+      "question": "示例应用能否认为 PostgreSQL 事务会自动原子地完成数据库更新和 Redis 缓存删除？正确的提交与缓存处理顺序是什么？",
+      "reference_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000"
+      ],
+      "candidate_pool_same_set": true,
+      "candidate_pool_observed": true,
+      "candidate_pool_same_order": true,
+      "reranker_attribution_valid": true,
+      "baseline_final_context_ids": [
+        "postgresql::chunk_000",
+        "redis::chunk_000",
+        "docker::chunk_000"
+      ],
+      "reranker_final_context_ids": [
+        "redis::chunk_000",
+        "postgresql::chunk_000",
+        "docker::chunk_000"
+      ],
+      "same_order": false,
+      "same_set": true,
+      "added_context_ids": [],
+      "removed_context_ids": [],
+      "baseline_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "docker::chunk_000"
+        ]
+      },
+      "reranker_coverage": {
+        "reference_hits": [
+          "postgresql::chunk_000",
+          "redis::chunk_000"
+        ],
+        "missing_reference_ids": [],
+        "extra_non_reference_ids": [
+          "docker::chunk_000"
+        ]
+      },
+      "coverage_outcome": "unchanged",
+      "metric_deltas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.07030315378132135,
+        "context_precision_llm": 0.0,
+        "context_recall_llm": 0.0,
+        "context_precision_id": 0.0,
+        "context_recall_id": 0.0
+      },
+      "errors": {
+        "baseline": [],
+        "reranker": []
+      }
+    }
+  ],
+  "original_summaries": {
+    "baseline": {
+      "faithfulness": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.9275793650793652
+      },
+      "answer_relevancy": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.8433333106189496
+      },
+      "context_precision_llm": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.9499999999116667
+      },
+      "context_recall_llm": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 1.0
+      },
+      "context_precision_id": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.4
+      },
+      "context_recall_id": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 1.0
+      }
+    },
+    "reranker": {
+      "faithfulness": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.8947619047619048
+      },
+      "answer_relevancy": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.8401487537341297
+      },
+      "context_precision_llm": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.9999999999074998
+      },
+      "context_recall_llm": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 1.0
+      },
+      "context_precision_id": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 0.4
+      },
+      "context_recall_id": {
+        "configured_count": 20,
+        "successful_count": 20,
+        "failed_count": 0,
+        "skipped_count": 0,
+        "mean_of_successful_values": 1.0
+      }
+    }
+  }
+}
